@@ -43,16 +43,19 @@ message("DEP: libLAS [OK] ")
 
 ####### Optional libs ####### 
 #CGAL,Qhull, GDAL
+find_package(Boost REQUIRED
+             COMPONENTS system filesystem thread serialization)
 
 # head
 INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/include)
 include_directories(${PROJECT_SOURCE_DIR}/include/dxflib)
+include_directories(${Boost_INCLUDE_DIRS})
 AUX_SOURCE_DIRECTORY(${PROJECT_SOURCE_DIR}/src SRC_LIST)
 #message("SRC_LIST is " ${SRC_LIST})
 
 SET(DEP_LIBS ${DEP_LIBS} ${OpenCV_LIBS} ${PCL_LIBRARIES} ${libLAS_LIBRARIES})
 
 add_executable(roadmarking ${PROJECT_SOURCE_DIR}/test/roadmarking_main.cpp ${SRC_LIST})
-target_link_libraries(roadmarking ${DEP_LIBS})
+target_link_libraries(roadmarking ${DEP_LIBS} ${Boost_LIBRARIES})
 
 
